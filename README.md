@@ -1,2 +1,2 @@
-# unity-awsem-off-screen-indicator
+# unity-awesome-off-screen-indicator
 Awesome off screen indicator
