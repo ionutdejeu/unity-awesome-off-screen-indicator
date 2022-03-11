@@ -13,8 +13,7 @@ public class OffScreenIndicatorSystem : MonoBehaviour
     private Vector3 screenBounds;
     private Rect screenBoundsDebug;
 
-    [SerializeField] List<OffScreenIndicatorTarget> targets = new List<OffScreenIndicatorTarget>();
-    [SerializeField] GameObject directionIndicator;
+    List<OffScreenIndicatorTarget> targets = new List<OffScreenIndicatorTarget>();
 
     [SerializeField] OffScreenIndicatorView indicatorView;
 
@@ -29,10 +28,11 @@ public class OffScreenIndicatorSystem : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        GameObject[] objs = GameObject.FindGameObjectsWithTag("off_screen_target");
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("target");
         foreach(GameObject ob in objs)
         {
-            targets.Add(ob.GetComponent<OffScreenIndicatorTarget>());
+            OffScreenIndicatorTarget t = ob.GetComponent<OffScreenIndicatorTarget>();
+            targets.Add(t);
         }
     }
 
@@ -57,7 +57,7 @@ public class OffScreenIndicatorSystem : MonoBehaviour
     /// <returns></returns>
     private OffScreenIndicatorView GetIndicator(ref OffScreenIndicatorView indicator)
     {
-        if (indicator != null)
+        if (indicator == null)
         {
             indicator = OffScreenIndicatorPoolableObject.current.GetPooledObject();
             indicator.gameObject.SetActive(true);
@@ -73,12 +73,13 @@ public class OffScreenIndicatorSystem : MonoBehaviour
     {
         foreach (OffScreenIndicatorTarget target in targets)
         {
+           
             Vector3 screenPosition = OffScreenIndicatorMath.GetPositionOnScreen(mainCamera, target.transform.position);
             bool isTargetVisible = OffScreenIndicatorMath.IsTargetVisibleOnScreen(screenPosition);
             float angle = 0f;
             Vector3 indicatorPos = screenPosition;
-
-
+            target.view = GetIndicator(ref target.view);
+            
             if (!isTargetVisible)
             {
                 // convert the coordinates of the screen around the origin 
@@ -93,8 +94,10 @@ public class OffScreenIndicatorSystem : MonoBehaviour
 
             }
 
-            directionIndicator.transform.position = indicatorPos;
-            directionIndicator.transform.rotation = Quaternion.Euler(0, 0, angle);
+            target.view.transform.position = indicatorPos;
+            target.view.image.transform.rotation = Quaternion.Euler(0, 0, angle);
+            //target.view.transform.rotation = Quaternion.Euler(0, 0, angle);
+
 
         }
     }

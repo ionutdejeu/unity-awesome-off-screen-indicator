@@ -7,8 +7,8 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/OffScreenIndicatorType", order = 1)]
 public class OffScreenIndicatorType : ScriptableObject
 {
-    [SerializeField] Sprite targetGraphic;
-    [SerializeField] Sprite OffScreenGraphics;
+    [SerializeField] public Sprite targetGraphic;
+    [SerializeField] public Sprite OffScreenGraphics;
     [SerializeField] bool requiresOrientation=true;
-    [SerializeField] Color indicatorColor = Color.red;
+    [SerializeField] public Color indicatorColor = Color.red;
 }

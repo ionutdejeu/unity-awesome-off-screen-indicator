@@ -10,21 +10,17 @@ public class OffScreenIndicatorView : MonoBehaviour
     [SerializeField] public Image image;
     [SerializeField] public Text distanceText;
 
-    // Use this for initialization
-    void Start()
+    private void Start()
     {
-        image = GetComponent<Image>();
-        
+        image.sprite = type.OffScreenGraphics;
     }
-
-    // Update is called once per frame
-    void Update()
+    public void OnTargetIsOutOfView()
     {
-        
+        image.sprite = type.targetGraphic;
     }
-
-    public void setSprite(Sprite s)
+    public void OnTargetIsInView()
     {
-        image.sprite = s;
+        image.sprite = type.OffScreenGraphics;
+
     }
 }
